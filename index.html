@@ -4,87 +4,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For Sangam 💗</title>
-  <link rel="stylesheet" href="./style.css">
-  <script src="./script.js" defer></script>
+  <meta name="theme-color" content="#ffe1ec">
+  <title>A Little Something for Sangam 💗</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="sparkles" aria-hidden="true"></div>
 
-  <main>
-    <section class="scene active" id="intro">
-      <p class="eyebrow">A LITTLE SOMETHING, FOR YOU</p>
+  <!-- SCENE 1: HEART AND ARROW -->
+  <section id="intro" class="scene active">
+    <p class="little-note">a little something, for you</p>
 
-      <div class="heart-wrap">
-        <div class="big-heart">♥</div>
-        <div class="heart-glow"></div>
-        <div class="arrow" id="arrow">➶</div>
+    <div class="heart-stage" id="heartStage">
+      <div class="glow"></div>
+
+      <svg class="big-heart" viewBox="0 0 220 200" aria-label="Pink heart">
+        <defs>
+          <radialGradient id="heartColor" cx="35%" cy="25%" r="75%">
+            <stop offset="0%" stop-color="#ffb5d1"/>
+            <stop offset="45%" stop-color="#ff5d9e"/>
+            <stop offset="100%" stop-color="#d80d64"/>
+          </radialGradient>
+          <filter id="heartShadow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+            <feOffset dy="7"/>
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.3"/>
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <path class="heart-shape" filter="url(#heartShadow)"
+          d="M110 185 C91 166 13 111 13 61 C13 18 65 3 91 37 L110 57 L129 37 C155 3 207 18 207 61 C207 111 129 166 110 185Z"
+          fill="url(#heartColor)"/>
+        <path d="M43 53 C46 34 64 29 78 40"
+          fill="none" stroke="#fff2f8" stroke-width="5"
+          stroke-linecap="round" opacity=".8"/>
+      </svg>
+
+      <div class="arrow" id="arrow">
+        <span class="arrow-shaft"></span>
+        <span class="arrow-head">➤</span>
+        <span class="arrow-feather">⌁</span>
       </div>
 
-      <p class="intro-message">A little love, just for you.</p>
-      <button id="pullButton" type="button">
-        <span>↗</span> PULL &amp; RELEASE
-      </button>
-      <p class="hint" id="introHint">Pull the arrow to begin 💌</p>
-    </section>
+      <span class="sparkle s1">✦</span>
+      <span class="sparkle s2">✧</span>
+      <span class="sparkle s3">✦</span>
+      <span class="sparkle s4">✧</span>
+    </div>
 
-    <section class="scene" id="birthday">
-      <p class="eyebrow">TODAY IS ALL ABOUT YOU</p>
-      <div class="wish">make a wish... ✨</div>
-      <div class="birthday-heart">💗</div>
-      <h1>Happy Birthday,<br><span>Sangam!</span></h1>
-      <p class="subtitle">May your day be as beautiful as your heart.</p>
-      <button id="openSurprise" type="button">Open your surprise ♡</button>
-    </section>
+    <button class="pull-button" id="pullButton">
+      <span>↗</span> PULL &amp; RELEASE
+    </button>
+    <p class="hint" id="introHint">A tiny surprise, made with love ♡</p>
+  </section>
 
-    <section class="scene garden-scene" id="garden">
-      <p class="eyebrow">A GARDEN FULL OF LOVE</p>
-      <h2>For you, Sangam <span>♥</span></h2>
+  <!-- SCENE 2: BIRTHDAY REVEAL -->
+  <section id="birthday" class="scene birthday-scene">
+    <div class="birthday-decor" aria-hidden="true">
+      <span>♡</span><span>✦</span><span>♥</span>
+      <span>✧</span><span>♡</span><span>♥</span>
+      <span>✦</span><span>♡</span><span>✧</span>
+    </div>
 
-      <div class="garden">
-        <div class="moon"></div>
-        <div class="ground"></div>
-        <div class="tree">
-          <div class="trunk"></div>
-          <div class="branch branch-left"></div>
-          <div class="branch branch-right"></div>
-          <div class="branch branch-top"></div>
-          <div id="heartBlossoms" class="heart-blossoms"></div>
-        </div>
+    <p class="make-wish">make a wish…</p>
+    <div class="birthday-heart">💗</div>
+    <h1 class="birthday-title">
+      <span>Happy</span>
+      <span>Birthday</span>
+    </h1>
+    <p class="birthday-name">Sangam ✨🤍🪷</p>
+    <p class="birthday-subtitle">Today is all about you, my love.</p>
+
+    <button class="surprise-button" id="openSurprise">
+      Open Your Surprise <span>♥</span>
+    </button>
+  </section>
+
+  <!-- SCENE 3: HEART BLOSSOM TREE -->
+  <section id="garden" class="scene garden-scene">
+    <div class="garden-sky-hearts" id="skyHearts" aria-hidden="true"></div>
+
+    <header class="garden-heading">
+      <p>FOR MY FAVOURITE PERSON</p>
+      <h2>To my forever love <span>♡</span></h2>
+      <p class="garden-subheading">If every heart could say one thing, it would say you.</p>
+    </header>
+
+    <div class="tree-wrap">
+      <div class="tree-canopy" id="treeCanopy" aria-label="A tree blooming with hearts">
+        <!-- Branches sit behind the heart blossoms -->
+        <svg class="tree-svg" viewBox="0 0 600 520" role="img"
+             aria-label="A tree with branches covered in heart blossoms">
+          <defs>
+            <linearGradient id="trunkColor" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#80533d"/>
+              <stop offset="48%" stop-color="#bd8763"/>
+              <stop offset="100%" stop-color="#75462f"/>
+            </linearGradient>
+          </defs>
+          <g class="branches">
+            <path d="M300 510 C290 430 308 362 297 292 C291 242 260 199 220 160"
+                  stroke="url(#trunkColor)" stroke-width="29"/>
+            <path d="M300 398 C350 353 372 299 384 241 C393 201 422 166 455 142"
+                  stroke="url(#trunkColor)" stroke-width="20"/>
+            <path d="M299 328 C250 301 206 266 177 221 C157 190 133 176 108 166"
+                  stroke="url(#trunkColor)" stroke-width="18"/>
+            <path d="M310 432 C365 411 412 388 451 349 C477 324 501 316 529 313"
+                  stroke="url(#trunkColor)" stroke-width="14"/>
+            <path d="M296 284 C318 242 320 202 307 160 C299 130 304 99 320 72"
+                  stroke="url(#trunkColor)" stroke-width="15"/>
+            <path d="M220 160 C211 126 190 105 161 91"
+                  stroke="url(#trunkColor)" stroke-width="10"/>
+            <path d="M384 241 C355 214 346 184 350 153"
+                  stroke="url(#trunkColor)" stroke-width="10"/>
+            <path d="M177 221 C145 225 118 213 94 193"
+                  stroke="url(#trunkColor)" stroke-width="9"/>
+            <path d="M455 142 C474 119 490 98 492 74"
+                  stroke="url(#trunkColor)" stroke-width="9"/>
+            <path d="M451 349 C429 320 423 293 433 264"
+                  stroke="url(#trunkColor)" stroke-width="9"/>
+          </g>
+        </svg>
+        <div class="heart-blossoms" id="heartBlossoms"></div>
       </div>
+      <div class="ground"></div>
+    </div>
 
-      <article class="love-letter">
-        <p class="letter-top">A little letter for you 💌</p>
-        <h3>Dear Sangam,</h3>
-        <p>
-          Happy Birthday, my love. 💗 I hope this new year of your life
-          brings you endless happiness, beautiful memories, and all the
-          little things your heart wishes for.
-        </p>
-        <p>
-          No matter how far apart we are, you deserve to feel loved,
-          appreciated, and special today and always. If I could make one
-          wish for you, it would be to see you smile every day.
-        </p>
-        <p class="signature">With all my love,<br><strong>JJ ♡</strong></p>
-      </article>
+    <article class="love-letter">
+      <p class="letter-small">A LITTLE LETTER FOR YOU</p>
+      <h2>Happy Birthday, my love 💗</h2>
+      <p>
+        Sangam, you make ordinary days feel special.
+        If I could give you one thing in life, I would give you
+        the ability to see yourself through my eyes. Then you would
+        know just how precious you are to me.
+      </p>
+      <p>
+        May your wishes bloom like these hearts, your smile never fade,
+        and your days always be filled with love. No matter how many
+        flowers this tree grows, it could never show how much you mean to me.
+      </p>
+      <p class="signature">Forever yours,<br><strong>JJ ♡</strong></p>
+    </article>
 
-      <button id="replayButton" type="button">Watch it again ↻</button>
-    </section>
-  </main>
+    <button class="replay-button" id="replayButton">↻ Watch it again</button>
+    <p class="footer-note">made with love, just for you ✨</p>
+  </section>
 
-  <script>
-    // Decorative background sparkles
-    const sparkleBox = document.querySelector(".sparkles");
-    for (let i = 0; i < 24; i++) {
-      const sparkle = document.createElement("span");
-      sparkle.className = "sparkle";
-      sparkle.textContent = "✦";
-      sparkle.style.left = Math.random() * 100 + "%";
-      sparkle.style.top = Math.random() * 100 + "%";
-      sparkle.style.animationDelay = Math.random() * 4 + "s";
-      sparkleBox.appendChild(sparkle);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
