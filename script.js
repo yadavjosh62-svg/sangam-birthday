@@ -1,120 +1,185 @@
 
-const openButton = document.getElementById("openButton");
 const intro = document.getElementById("intro");
+const birthday = document.getElementById("birthday");
 const garden = document.getElementById("garden");
-const flowers = document.getElementById("flowers");
+
+const pullButton = document.getElementById("pullButton");
+const introHint = document.getElementById("introHint");
+const openSurprise = document.getElementById("openSurprise");
 const replayButton = document.getElementById("replayButton");
 
-let opened = false;
+const heartBlossoms = document.getElementById("heartBlossoms");
+const skyHearts = document.getElementById("skyHearts");
 
-function createFlowers() {
-  flowers.replaceChildren();
+let isReleasing = false;
+let gardenOpened = false;
 
-  const NS = "http://www.w3.org/2000/svg";
+function showScene(scene) {
+  [intro, birthday, garden].forEach((item) => {
+    item.classList.remove("active");
+  });
+
+  scene.classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* STEP 1: PULL AND RELEASE THE ARROW */
+
+pullButton.addEventListener("click", () => {
+  if (isReleasing) return;
+
+  isReleasing = true;
+  pullButton.disabled = true;
+  pullButton.innerHTML = "♡ Releasing love...";
+  introHint.textContent = "Made just for you, Sangam 💗";
+
+  intro.classList.add("releasing");
+
+  // Let the arrow reach the heart before revealing the birthday.
+  window.setTimeout(() => {
+    showScene(birthday);
+
+    isReleasing = false;
+    pullButton.disabled = false;
+    pullButton.innerHTML = "<span>↗</span> PULL &amp; RELEASE";
+  }, 1700);
+});
+
+/* STEP 2: OPEN THE SURPRISE */
+
+openSurprise.addEventListener("click", () => {
+  showScene(garden);
+
+  if (!gardenOpened) {
+    gardenOpened = true;
+    createHeartTree();
+    createFloatingHearts();
+  }
+
+  // Restart the branch drawing animation on entry.
+  const branches = document.querySelector(".branches");
+  if (branches) {
+    branches.querySelectorAll("path").forEach((path) => {
+      path.style.animation = "none";
+      void path.getBoundingClientRect();
+      path.style.animation = "";
+    });
+  }
+});
+
+/* STEP 3: CREATE A DENSE TREE OF HEART BLOSSOMS */
+
+function createHeartTree() {
+  heartBlossoms.innerHTML = "";
 
   const colors = [
-    "#ed8bb5",
-    "#f7b5d0",
-    "#df6097",
-    "#f5d5e0",
-    "#e878a8",
-    "#fff0f5"
+    "#ff4f91",
+    "#ff6b9f",
+    "#fb86b5",
+    "#ed3f79",
+    "#d94d91",
+    "#b96bd6",
+    "#cc82e7",
+    "#ffb0cb",
+    "#f83f67",
+    "#e65aab",
+    "#f48ab2",
+    "#c65ab8"
   ];
 
-  const spots = [
-    [200,95,9], [175,115,8], [225,120,9],
-    [155,145,8], [250,145,8], [130,175,7],
-    [275,170,8], [180,165,8], [225,180,8],
-    [105,210,8], [300,205,8], [150,220,8],
-    [250,220,8], [185,240,8], [220,250,8],
-    [125,245,7], [280,240,7], [165,275,8],
-    [240,280,8], [200,300,7], [90,195,6],
-    [320,180,6], [145,130,6], [260,120,6],
-    [170,90,6], [235,85,6]
+  // Use many different heart sizes and shapes.
+  const symbols = ["♥", "♥", "♡", "♥", "❤", "♥"];
+
+  // The tree canopy is an oval. Fill it densely so the branches
+  // are mostly hidden behind the blooming hearts.
+  const totalHearts = 300;
+
+  for (let i = 0; i < totalHearts; i++) {
+    const heart = document.createElement("span");
+    heart.className = "bloom-heart";
+
+    heart.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    // Sample points across an ellipse, with extra hearts toward
+    // the outer edges to create a full, rounded tree crown.
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.sqrt(Math.random());
+
+    const x = 300 + Math.cos(angle) * radius * 275;
+    const y = 225 + Math.sin(angle) * radius * 205;
+
+    // Keep the blossoms away from the very bottom of the trunk.
+    const safeY = Math.min(415, Math.max(18, y));
+
+    const size = 11 + Math.random() * 22;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const delay = Math.random() * 3.2;
+    const sway = 2.5 + Math.random() * 3.5;
+
+    heart.style.setProperty("--x", `${(x / 600) * 100}%`);
+    heart.style.setProperty("--y", `${(safeY / 520) * 100}%`);
+    heart.style.setProperty("--size", `${size}px`);
+    heart.style.setProperty("--delay", `${delay}s`);
+    heart.style.setProperty("--sway", `${sway}s`);
+    heart.style.color = color;
+    heart.style.zIndex = String(Math.floor(Math.random() * 3) + 1);
+
+    heartBlossoms.appendChild(heart);
+  }
+}
+
+/* GENTLE FLOATING HEARTS AROUND THE PAGE */
+
+function createFloatingHearts() {
+  skyHearts.innerHTML = "";
+
+  const floatingColors = [
+    "#f5a0bf",
+    "#e88eb7",
+    "#eab6df",
+    "#f8c0d5"
   ];
 
-  spots.forEach(([x, y, r], index) => {
-    const group = document.createElementNS(NS, "g");
+  for (let i = 0; i < 24; i++) {
+    const heart = document.createElement("span");
+    heart.className = "sky-heart";
+    heart.textContent = Math.random() > 0.5 ? "♡" : "♥";
 
-    group.setAttribute("class", "flower");
-    group.style.animationDelay =
-      `${1.4 + index * 0.08}s`;
+    heart.style.left = `${Math.random() * 100}%`;
+    heart.style.fontSize = `${10 + Math.random() * 17}px`;
+    heart.style.color =
+      floatingColors[
+        Math.floor(Math.random() * floatingColors.length)
+      ];
 
-    for (let p = 0; p < 5; p++) {
-      const angle = (Math.PI * 2 * p) / 5;
-      const petal = document.createElementNS(NS, "ellipse");
-
-      const px = x + Math.cos(angle) * r * 0.55;
-      const py = y + Math.sin(angle) * r * 0.55;
-
-      petal.setAttribute("cx", px);
-      petal.setAttribute("cy", py);
-      petal.setAttribute("rx", r * 0.5);
-      petal.setAttribute("ry", r * 0.34);
-      petal.setAttribute(
-        "transform",
-        `rotate(${p * 72} ${px} ${py})`
-      );
-      petal.setAttribute(
-        "fill",
-        colors[index % colors.length]
-      );
-
-      group.appendChild(petal);
-    }
-
-    const center = document.createElementNS(NS, "circle");
-
-    center.setAttribute("cx", x);
-    center.setAttribute("cy", y);
-    center.setAttribute("r", r * 0.22);
-    center.setAttribute("fill", "#f8d58a");
-
-    group.appendChild(center);
-    flowers.appendChild(group);
-  });
-
-  const hearts = [
-    [145,190], [265,195], [195,135],
-    [225,230], [115,225], [290,225]
-  ];
-
-  hearts.forEach(([x, y], i) => {
-    const heart = document.createElementNS(NS, "path");
-
-    heart.setAttribute("class", "flower");
-    heart.style.animationDelay = `${2.2 + i * 0.15}s`;
-
-    heart.setAttribute(
-      "d",
-      `M ${x} ${y + 5}
-       C ${x - 13} ${y - 5}, ${x - 7} ${y - 12}, ${x} ${y - 5}
-       C ${x + 8} ${y - 13}, ${x + 14} ${y - 4}, ${x} ${y + 5} Z`
+    heart.style.setProperty(
+      "--duration",
+      `${8 + Math.random() * 10}s`
     );
 
-    heart.setAttribute("fill", colors[(i + 2) % colors.length]);
+    heart.style.setProperty(
+      "--delay",
+      `${Math.random() * 10}s`
+    );
 
-    flowers.appendChild(heart);
-  });
+    skyHearts.appendChild(heart);
+  }
 }
 
-function openSurprise() {
-  if (opened) return;
-
-  opened = true;
-  intro.classList.add("hide");
-  garden.classList.add("show");
-
-  createFlowers();
-}
-
-openButton.addEventListener("click", openSurprise);
+/* REPLAY FROM THE VERY BEGINNING */
 
 replayButton.addEventListener("click", () => {
-  opened = false;
+  gardenOpened = false;
+  isReleasing = false;
 
-  garden.classList.remove("show");
-  intro.classList.remove("hide");
+  intro.classList.remove("releasing");
+  pullButton.disabled = false;
+  pullButton.innerHTML = "<span>↗</span> PULL &amp; RELEASE";
+  introHint.textContent = "A tiny surprise, made with love ♡";
 
-  flowers.replaceChildren();
+  heartBlossoms.innerHTML = "";
+  skyHearts.innerHTML = "";
+
+  showScene(intro);
 });
