@@ -1,0 +1,291 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Georgia, serif;
+  background: #210c1b;
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 100vh;
+  margin: auto;
+  overflow: hidden;
+}
+
+.intro,
+.garden {
+  position: absolute;
+  inset: 0;
+  min-height: 100vh;
+  transition: opacity 1s ease;
+}
+
+.intro {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+
+  background:
+    radial-gradient(circle at 20% 20%, #f65aab, transparent 40%),
+    linear-gradient(135deg, #b90054, #ed2684, #a5004a);
+}
+
+.eyebrow {
+  letter-spacing: 3px;
+  font-size: 12px;
+  animation: fadeUp 1s both;
+}
+
+.intro h1 {
+  margin: 20px 0;
+  font-size: clamp(55px, 12vw, 100px);
+  line-height: 0.95;
+}
+
+.intro h1 span {
+  display: block;
+  animation: titleIn 1s both;
+}
+
+.intro h1 span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.gold-line {
+  width: 110px;
+  border-top: 2px solid #f4d28a;
+  margin: 15px 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #ffffffaa;
+  padding: 12px 22px;
+  border-radius: 30px;
+  color: white;
+  background: #ffffff18;
+  font-size: 13px;
+}
+
+#openButton {
+  margin-top: 35px;
+}
+
+.garden {
+  opacity: 0;
+  visibility: hidden;
+  background: radial-gradient(circle, #fffdfb, #f7e7df);
+  color: #873453;
+}
+
+.garden.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.intro.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.message {
+  position: absolute;
+  z-index: 2;
+  top: 30%;
+  left: 7%;
+  width: 34%;
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.garden.show .message {
+  animation: fadeUp 1.2s 1s forwards;
+}
+
+.tiny {
+  color: #a67b8b;
+  font-size: 12px;
+}
+
+.message h2 {
+  font-size: clamp(25px, 4vw, 44px);
+  line-height: 1.15;
+  color: #b51d61;
+}
+
+.message h2 span {
+  display: block;
+  margin-top: 8px;
+}
+
+.wish {
+  font-family: Arial, sans-serif;
+  color: #896c77;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.signature {
+  color: #9b7785;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 25px;
+}
+
+.signature strong {
+  color: #b51d61;
+}
+
+.tree-area {
+  position: absolute;
+  width: 58%;
+  height: 95%;
+  right: 0;
+  bottom: -3%;
+}
+
+#tree {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.branches path {
+  fill: none;
+  stroke: #68404b;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+}
+
+.garden.show .branches path {
+  animation: growBranch 2.5s ease forwards;
+}
+
+#flowers {
+  overflow: visible;
+}
+
+.flower {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.garden.show .flower {
+  animation: bloom 0.8s ease forwards;
+}
+
+.bottom-note {
+  position: absolute;
+  bottom: 18px;
+  left: 7%;
+  color: #ad8795;
+  font: 11px Arial, sans-serif;
+}
+
+.replay {
+  position: absolute;
+  z-index: 4;
+  bottom: 12px;
+  right: 12px;
+  color: #a34b70;
+  border-color: #d6a8b9;
+  background: #ffffff88;
+}
+
+@keyframes titleIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growBranch {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(-25deg);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 650px) {
+  .screen {
+    min-height: 100vh;
+  }
+
+  .message {
+    top: 7%;
+    left: 7%;
+    width: 86%;
+    text-align: center;
+  }
+
+  .message h2 {
+    font-size: 30px;
+    margin: 12px 0;
+  }
+
+  .wish {
+    max-width: 340px;
+    margin: auto;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .signature {
+    margin-top: 10px;
+  }
+
+  .tree-area {
+    width: 100%;
+    height: 58%;
+    bottom: -6%;
+  }
+
+  .bottom-note {
+    z-index: 3;
+    bottom: 14px;
+  }
+}
